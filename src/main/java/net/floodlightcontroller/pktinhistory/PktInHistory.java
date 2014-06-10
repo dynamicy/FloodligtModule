@@ -1,8 +1,11 @@
 package net.floodlightcontroller.pktinhistory;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
+import net.floodlightcontroller.core.IFloodlightProviderService;
+import net.floodlightcontroller.core.types.SwitchMessagePair;
 import org.openflow.protocol.OFMessage;
 import org.openflow.protocol.OFType;
 
@@ -16,11 +19,13 @@ import net.floodlightcontroller.core.module.IFloodlightService;
 
 public class PktInHistory implements IFloodlightModule, IOFMessageListener
 {
+    protected IFloodlightProviderService floodlightProvider;
+    protected ConcurrentCircularBuffer<SwitchMessagePair> buffer;
+
     @Override
     public String getName()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return "PktInHistory";
     }
 
     @Override
@@ -61,20 +66,21 @@ public class PktInHistory implements IFloodlightModule, IOFMessageListener
     @Override
     public Collection<Class<? extends IFloodlightService>> getModuleDependencies()
     {
-        // TODO Auto-generated method stub
-        return null;
+        Collection<Class<? extends IFloodlightService>> l = new ArrayList<Class<? extends IFloodlightService>> ();
+        l.add(IFloodlightProviderService.class);
+        return l;
     }
 
     @Override
     public void init(FloodlightModuleContext context) throws FloodlightModuleException
     {
-        // TODO Auto-generated method stub
-
+        floodlightProvider = context.getServiceImpl(IFloodlightProviderService.class);
+        buffer = new ConcurrentCircularBuffer<SwitchMessagePair>(SwitchMessagePair.class, 100);
     }
 
     @Override
     public void startUp(FloodlightModuleContext context)
     {
-        // TODO Auto-generated method stub
+        floodlightProvider.addOFMessageListener(OFType.PACKET_IN, this);
     }
 }
