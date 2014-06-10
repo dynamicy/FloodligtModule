@@ -2,6 +2,7 @@ package net.floodlightcontroller.pktinhistory;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 import net.floodlightcontroller.core.IFloodlightProviderService;
@@ -67,8 +68,9 @@ public class PktInHistory implements IFloodlightModule, IPktinHistoryService, IO
     @Override
     public Map<Class<? extends IFloodlightService>, IFloodlightService> getServiceImpls()
     {
-        // TODO Auto-generated method stub
-        return null;
+        Map<Class<? extends IFloodlightService>, IFloodlightService> m = new HashMap<Class<? extends IFloodlightService>, IFloodlightService> ();
+        m.put(IPktinHistoryService.class, this);
+        return m;
     }
 
     @Override
