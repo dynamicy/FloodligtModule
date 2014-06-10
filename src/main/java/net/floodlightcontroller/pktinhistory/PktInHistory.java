@@ -18,15 +18,11 @@ import net.floodlightcontroller.core.module.FloodlightModuleContext;
 import net.floodlightcontroller.core.module.FloodlightModuleException;
 import net.floodlightcontroller.core.module.IFloodlightModule;
 import net.floodlightcontroller.core.module.IFloodlightService;
-import org.openflow.util.HexString;
-import org.slf4j.Logger;
 
 public class PktInHistory implements IFloodlightModule, IPktinHistoryService, IOFMessageListener
 {
     protected IFloodlightProviderService floodlightProvider;
     protected ConcurrentCircularBuffer<SwitchMessagePair> buffer;
-
-    protected static Logger logger;
 
     protected IRestApiService restApi;
 
@@ -39,22 +35,18 @@ public class PktInHistory implements IFloodlightModule, IPktinHistoryService, IO
     @Override
     public boolean isCallbackOrderingPrereq(OFType type, String name)
     {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public boolean isCallbackOrderingPostreq(OFType type, String name)
     {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public Command receive(IOFSwitch sw, OFMessage msg, FloodlightContext cntx)
     {
-        logger.info("[DebugInfo][PktInHistory]receive");
-
         switch(msg.getType())
         {
             case PACKET_IN:
