@@ -32,8 +32,7 @@ public class MACTracker implements IOFMessageListener, IFloodlightModule
     @Override
     public String getName()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return MACTracker.class.getSimpleName();
     }
 
     @Override
