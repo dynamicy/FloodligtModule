@@ -32,40 +32,42 @@ public class MACTracker implements IOFMessageListener, IFloodlightModule
     @Override
     public String getName()
     {
+        logger.info("[DebugInfo][MACTracker] getName");
         return MACTracker.class.getSimpleName();
     }
 
     @Override
     public boolean isCallbackOrderingPrereq(OFType type, String name)
     {
-        // TODO Auto-generated method stub
+        logger.info("[DebugInfo][MACTracker] isCallbackOrderingPrereq");
         return false;
     }
 
     @Override
     public boolean isCallbackOrderingPostreq(OFType type, String name)
     {
-        // TODO Auto-generated method stub
+        logger.info("[DebugInfo][MACTracker] isCallbackOrderingPostreq");
         return false;
     }
 
     @Override
     public Collection<Class<? extends IFloodlightService>> getModuleServices()
     {
-        // TODO Auto-generated method stub
+        logger.info("[DebugInfo][MACTracker] getModuleServices");
         return null;
     }
 
     @Override
     public Map<Class<? extends IFloodlightService>, IFloodlightService> getServiceImpls()
     {
-        // TODO Auto-generated method stub
+        logger.info("[DebugInfo][MACTracker] getServiceImpls");
         return null;
     }
 
     @Override
     public Collection<Class<? extends IFloodlightService>> getModuleDependencies()
     {
+        logger.info("[DebugInfo][MACTracker] getModuleDependencies");
         Collection<Class<? extends IFloodlightService>> l = new ArrayList<Class<? extends IFloodlightService>>();
         l.add(IFloodlightProviderService.class);
         return l;
@@ -74,6 +76,7 @@ public class MACTracker implements IOFMessageListener, IFloodlightModule
     @Override
     public void init(FloodlightModuleContext context) throws FloodlightModuleException
     {
+        logger.info("[DebugInfo][MACTracker] init");
         floodlightProvider = context.getServiceImpl(IFloodlightProviderService.class);
         macAddresses = new ConcurrentSkipListSet<Long>();
         logger = LoggerFactory.getLogger(MACTracker.class);
@@ -82,6 +85,7 @@ public class MACTracker implements IOFMessageListener, IFloodlightModule
     @Override
     public void startUp(FloodlightModuleContext context)
     {
+        logger.info("[DebugInfo][MACTracker]startUp");
         floodlightProvider.addOFMessageListener(OFType.PACKET_IN, this);
     }
 
@@ -94,7 +98,7 @@ public class MACTracker implements IOFMessageListener, IFloodlightModule
         if (!macAddresses.contains(sourceMACHash))
         {
             macAddresses.add(sourceMACHash);
-            logger.info("MAC Address: {} seen on switch: {}", HexString.toHexString(sourceMACHash), sw.getId());
+            logger.info("[DebugInfo][MACTracker]MAC Address: {} seen on switch: {}", HexString.toHexString(sourceMACHash), sw.getId());
         }
         return Command.CONTINUE;
     }
