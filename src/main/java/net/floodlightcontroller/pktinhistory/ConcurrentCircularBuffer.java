@@ -1,5 +1,7 @@
 package net.floodlightcontroller.pktinhistory;
 
+import net.floodlightcontroller.core.types.SwitchMessagePair;
+
 import java.util.concurrent.atomic.AtomicInteger;
 import java.lang.reflect.Array;
 

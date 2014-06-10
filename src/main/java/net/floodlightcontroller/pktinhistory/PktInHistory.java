@@ -17,7 +17,7 @@ import net.floodlightcontroller.core.module.FloodlightModuleException;
 import net.floodlightcontroller.core.module.IFloodlightModule;
 import net.floodlightcontroller.core.module.IFloodlightService;
 
-public class PktInHistory implements IFloodlightModule, IOFMessageListener
+public class PktInHistory implements IFloodlightModule, IPktinHistoryService, IOFMessageListener
 {
     protected IFloodlightProviderService floodlightProvider;
     protected ConcurrentCircularBuffer<SwitchMessagePair> buffer;
@@ -43,7 +43,6 @@ public class PktInHistory implements IFloodlightModule, IOFMessageListener
     }
 
     @Override
-//    public net.floodlightcontroller.core.IListener.Command receive(IOFSwitch sw, OFMessage msg, FloodlightContext cntx)
     public Command receive(IOFSwitch sw, OFMessage msg, FloodlightContext cntx)
     {
         switch(msg.getType())
@@ -60,8 +59,9 @@ public class PktInHistory implements IFloodlightModule, IOFMessageListener
     @Override
     public Collection<Class<? extends IFloodlightService>> getModuleServices()
     {
-        // TODO Auto-generated method stub
-        return null;
+        Collection<Class<? extends IFloodlightService>> l = new ArrayList<Class<? extends IFloodlightService>>();
+        l.add(IPktinHistoryService.class);
+        return l;
     }
 
     @Override
@@ -90,5 +90,11 @@ public class PktInHistory implements IFloodlightModule, IOFMessageListener
     public void startUp(FloodlightModuleContext context)
     {
         floodlightProvider.addOFMessageListener(OFType.PACKET_IN, this);
+    }
+
+    @Override
+    public ConcurrentCircularBuffer<SwitchMessagePair> getBuffer()
+    {
+        return buffer;
     }
 }
