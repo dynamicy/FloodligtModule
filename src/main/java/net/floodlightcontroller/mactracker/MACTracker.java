@@ -25,6 +25,10 @@ import org.slf4j.LoggerFactory;
 
 public class MACTracker implements IOFMessageListener, IFloodlightModule
 {
+    protected IFloodlightProviderService floodlightProvider;
+    protected Set macAddresses;
+    protected static Logger logger;
+
     @Override
     public String getName()
     {
@@ -71,7 +75,9 @@ public class MACTracker implements IOFMessageListener, IFloodlightModule
     @Override
     public void init(FloodlightModuleContext context) throws FloodlightModuleException
     {
-        // TODO Auto-generated method stub
+        floodlightProvider = context.getServiceImpl(IFloodlightProviderService.class);
+        macAddresses = new ConcurrentSkipListSet<Long>();
+        logger = LoggerFactory.getLogger(MACTracker.class);
     }
 
     @Override
