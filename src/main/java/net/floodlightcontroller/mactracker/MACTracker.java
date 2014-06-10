@@ -86,9 +86,16 @@ public class MACTracker implements IOFMessageListener, IFloodlightModule
     }
 
     @Override
-    public Command receive(IOFSwitch sw, OFMessage msg, FloodlightContext cntx)
+    public net.floodlightcontroller.core.IListener.Command receive(IOFSwitch sw, OFMessage msg, FloodlightContext cntx)
     {
-        // TODO Auto-generated method stub
-        return null;
+        Ethernet eth = IFloodlightProviderService.bcStore.get(cntx, IFloodlightProviderService.CONTEXT_PI_PAYLOAD);
+
+        Long sourceMACHash = Ethernet.toLong(eth.getSourceMACAddress());
+        if (!macAddresses.contains(sourceMACHash))
+        {
+            macAddresses.add(sourceMACHash);
+            logger.info("MAC Address: {} seen on switch: {}", HexString.toHexString(sourceMACHash), sw.getId());
+        }
+        return Command.CONTINUE;
     }
 }
