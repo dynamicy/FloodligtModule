@@ -33,18 +33,21 @@ public class OFSwitchImpl extends OFSwitchBase implements IOFSwitch
 {
     @Override
     @JsonIgnore
-    public void setSwitchProperties(OFDescriptionStatistics description) {
+    public void setSwitchProperties(OFDescriptionStatistics description)
+    {
         this.description = new OFDescriptionStatistics(description);
     }
 
     @Override
-    public OFPortType getPortType(short port_num) {
+    public OFPortType getPortType(short port_num)
+    {
         return OFPortType.NORMAL;
     }
 
     @Override
     @JsonIgnore
-    public boolean isFastPort(short port_num) {
+    public boolean isFastPort(short port_num)
+    {
         return false;
     }
 }
