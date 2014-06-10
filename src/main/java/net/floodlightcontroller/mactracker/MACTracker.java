@@ -14,6 +14,15 @@ import net.floodlightcontroller.core.module.FloodlightModuleException;
 import net.floodlightcontroller.core.module.IFloodlightModule;
 import net.floodlightcontroller.core.module.IFloodlightService;
 
+import net.floodlightcontroller.core.IFloodlightProviderService;
+import java.util.ArrayList;
+import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.Set;
+import net.floodlightcontroller.packet.Ethernet;
+import org.openflow.util.HexString;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class MACTracker implements IOFMessageListener, IFloodlightModule
 {
     @Override
@@ -54,8 +63,9 @@ public class MACTracker implements IOFMessageListener, IFloodlightModule
     @Override
     public Collection<Class<? extends IFloodlightService>> getModuleDependencies()
     {
-        // TODO Auto-generated method stub
-        return null;
+        Collection<Class<? extends IFloodlightService>> l = new ArrayList<Class<? extends IFloodlightService>>();
+        l.add(IFloodlightProviderService.class);
+        return l;
     }
 
     @Override
