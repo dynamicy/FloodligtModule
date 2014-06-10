@@ -7,6 +7,7 @@ import java.util.Map;
 
 import net.floodlightcontroller.core.IFloodlightProviderService;
 import net.floodlightcontroller.core.types.SwitchMessagePair;
+import net.floodlightcontroller.restserver.IRestApiService;
 import org.openflow.protocol.OFMessage;
 import org.openflow.protocol.OFType;
 
@@ -22,6 +23,8 @@ public class PktInHistory implements IFloodlightModule, IPktinHistoryService, IO
 {
     protected IFloodlightProviderService floodlightProvider;
     protected ConcurrentCircularBuffer<SwitchMessagePair> buffer;
+
+    protected IRestApiService restApi;
 
     @Override
     public String getName()
@@ -76,8 +79,9 @@ public class PktInHistory implements IFloodlightModule, IPktinHistoryService, IO
     @Override
     public Collection<Class<? extends IFloodlightService>> getModuleDependencies()
     {
-        Collection<Class<? extends IFloodlightService>> l = new ArrayList<Class<? extends IFloodlightService>> ();
+        Collection<Class<? extends IFloodlightService>> l = new ArrayList<Class<? extends IFloodlightService>>();
         l.add(IFloodlightProviderService.class);
+        l.add(IRestApiService.class);
         return l;
     }
 
@@ -85,6 +89,7 @@ public class PktInHistory implements IFloodlightModule, IPktinHistoryService, IO
     public void init(FloodlightModuleContext context) throws FloodlightModuleException
     {
         floodlightProvider = context.getServiceImpl(IFloodlightProviderService.class);
+        restApi = context.getServiceImpl(IRestApiService.class);
         buffer = new ConcurrentCircularBuffer<SwitchMessagePair>(SwitchMessagePair.class, 100);
     }
 
