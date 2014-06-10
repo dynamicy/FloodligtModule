@@ -18,6 +18,9 @@
 package net.floodlightcontroller.core.internal;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import net.floodlightcontroller.core.IOFSwitch;
+import net.floodlightcontroller.core.web.serializers.OFSwitchImplJSONSerializer;
 import org.openflow.protocol.statistics.OFDescriptionStatistics;
 
 import net.floodlightcontroller.core.OFSwitchBase;
@@ -25,8 +28,9 @@ import net.floodlightcontroller.core.OFSwitchBase;
 /**
  * This is the internal representation of an openflow switch.
  */
-public class OFSwitchImpl extends OFSwitchBase {
-
+@JsonSerialize(using=OFSwitchImplJSONSerializer.class)
+public class OFSwitchImpl extends OFSwitchBase implements IOFSwitch
+{
     @Override
     @JsonIgnore
     public void setSwitchProperties(OFDescriptionStatistics description) {

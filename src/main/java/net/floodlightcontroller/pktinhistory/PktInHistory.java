@@ -97,6 +97,7 @@ public class PktInHistory implements IFloodlightModule, IPktinHistoryService, IO
     public void startUp(FloodlightModuleContext context)
     {
         floodlightProvider.addOFMessageListener(OFType.PACKET_IN, this);
+        restApi.addRestletRoutable(new PktInHistoryWebRoutable());
     }
 
     @Override
