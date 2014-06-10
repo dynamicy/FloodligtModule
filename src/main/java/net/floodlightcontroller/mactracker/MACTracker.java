@@ -83,7 +83,7 @@ public class MACTracker implements IOFMessageListener, IFloodlightModule
     @Override
     public void startUp(FloodlightModuleContext context)
     {
-        // TODO Auto-generated method stub
+        floodlightProvider.addOFMessageListener(OFType.PACKET_IN, this);
     }
 
     @Override
