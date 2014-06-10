@@ -43,10 +43,18 @@ public class PktInHistory implements IFloodlightModule, IOFMessageListener
     }
 
     @Override
-    public net.floodlightcontroller.core.IListener.Command receive(IOFSwitch sw, OFMessage msg, FloodlightContext cntx)
+//    public net.floodlightcontroller.core.IListener.Command receive(IOFSwitch sw, OFMessage msg, FloodlightContext cntx)
+    public Command receive(IOFSwitch sw, OFMessage msg, FloodlightContext cntx)
     {
-        // TODO Auto-generated method stub
-        return null;
+        switch(msg.getType())
+        {
+            case PACKET_IN:
+                buffer.add(new SwitchMessagePair(sw, msg));
+                break;
+            default:
+                break;
+        }
+        return Command.CONTINUE;
     }
 
     @Override
